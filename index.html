@@ -1,12 +1,116 @@
-<!-- 最低限のHTML構成（仮表示用） -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>無料画像ギャラリー</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シンプルフォトストア</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>無料画像ギャラリーへようこそ！</h1>
-  <p>このサイトでは、クレジット付きで無料画像を配布しています。</p>
+    <header class="site-header">
+        <div class="container">
+            <h1 class="site-logo"><a href="#">シンプルフォトストア</a></h1>
+            <nav class="site-nav">
+                <ul>
+                    <li><a href="#">カテゴリ</a></li>
+                    <li><a href="#">人気画像</a></li>
+                    <li><a href="#">新規投稿</a></li>
+                    <li><a href="#">お問い合わせ</a></li>
+                    <li><a href="#">ログイン</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h2>あなたの次のアイデアを形にする、美しい写真を見つけよう</h2>
+                <p>プロフェッショナルなストックフォトが、あなたの創造性を刺激します。</p>
+                <div class="search-bar">
+                    <input type="text" placeholder="写真を探す...">
+                    <button type="submit">検索</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="image-gallery">
+            <div class="container">
+                <h3>新着画像</h3>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/300x200?text=Image+1" alt="風景写真1">
+                            <div class="item-info">
+                                <p class="item-title">美しい山並み</p>
+                                <p class="item-price">¥500</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/300x200?text=Image+2" alt="街の風景2">
+                            <div class="item-info">
+                                <p class="item-title">夕暮れの街並み</p>
+                                <p class="item-price">¥500</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/300x200?text=Image+3" alt="動物の写真3">
+                            <div class="item-info">
+                                <p class="item-title">森の中の鹿</p>
+                                <p class="item-price">¥500</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/300x200?text=Image+4" alt="抽象画4">
+                            <div class="item-info">
+                                <p class="item-title">水の反射</p>
+                                <p class="item-price">¥500</p>
+                            </div>
+                        </a>
+                    </div>
+                     <div class="gallery-item">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/300x200?text=Image+5" alt="料理の写真5">
+                            <div class="item-info">
+                                <p class="item-title">食卓の彩り</p>
+                                <p class="item-price">¥500</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/300x200?text=Image+6" alt="ポートレート写真6">
+                            <div class="item-info">
+                                <p class="item-title">笑顔のポートレート</p>
+                                <p class="item-price">¥500</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="view-more">
+                    <a href="#" class="button">さらに多くの画像を見る</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 シンプルフォトストア All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="#">利用規約</a></li>
+                <li><a href="#">プライバシーポリシー</a></li>
+            </ul>
+        </div>
+    </footer>
 </body>
 </html>
