@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // API GatewayのエンドポイントURLを設定
-    // 実際には、環境変数や設定ファイルから読み込むことを推奨
-    const API_BASE_URL = 'YOUR_API_GATEWAY_ENDPOINT'; // 例: https://abcdef123.execute-api.ap-northeast-1.amazonaws.com/prod';
+    // Google Cloud Functions のエンドポイントURLを設定
+    // デプロイ後に得られるURLに置き換えてください
+    const API_BASE_URL = 'YOUR_GOOGLE_CLOUD_FUNCTIONS_BASE_URL'; // 例: https://asia-northeast1-your-project-id.cloudfunctions.net';
 
     // --- 1. 新しい画像のアップロード機能 ---
     const uploadForm = document.getElementById('uploadForm');
@@ -24,40 +24,53 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadProgress.textContent = 'アップロード中...';
         uploadProgress.style.color = 'var(--secondary-color)';
 
-        const formData = new FormData();
-        formData.append('image', imageFile);
-        formData.append('title', title);
-        formData.append('description', description);
-        formData.append('price', price);
-        formData.append('tags', JSON.stringify(tags)); // 配列はJSON文字列化して送る
+        // 画像ファイルをbase64エンコードしてJSONで送る（推奨される方法の一つ）
+        const reader = new FileReader();
+        reader.readAsDataURL(imageFile); // ファイルをData URLとして読み込む
+        reader.onloadend = async () => {
+            const base64Image = reader.result.split(',')[1]; // Data URLからbase64部分を抽出
 
-        try {
-            const response = await fetch(`${API_BASE_URL}/upload-image`, {
-                method: 'POST',
-                body: formData,
-                // Content-Type ヘッダーはFormDataを使用する場合、ブラウザが自動で設定するため不要
-                // 管理者認証トークンなどをヘッダーに追加する
-                // headers: {
-                //     'Authorization': 'Bearer YOUR_ADMIN_AUTH_TOKEN'
-                // }
-            });
+            try {
+                const response = await fetch(`${API_BASE_URL}/uploadImage`, { // uploadImage 関数を呼び出す
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 管理者認証トークンなどをヘッダーに追加する
+                        // 'Authorization': 'Bearer YOUR_ADMIN_AUTH_TOKEN'
+                    },
+                    body: JSON.stringify({
+                        image: base64Image,
+                        fileName: imageFile.name,
+                        mimeType: imageFile.type,
+                        title: title,
+                        description: description,
+                        price: parseInt(price, 10),
+                        tags: tags
+                    })
+                });
 
-            if (response.ok) {
-                const result = await response.json();
-                uploadProgress.textContent = `アップロード成功！画像ID: ${result.imageId}`;
-                uploadProgress.style.color = 'green';
-                uploadForm.reset(); // フォームをリセット
-                loadPopularImages(); // 人気画像を再読み込みして最新情報を反映
-            } else {
-                const errorData = await response.json();
-                uploadProgress.textContent = `アップロード失敗: ${errorData.message || response.statusText}`;
+                if (response.ok) {
+                    const result = await response.json();
+                    uploadProgress.textContent = `アップロード成功！画像ID: ${result.imageId}`;
+                    uploadProgress.style.color = 'green';
+                    uploadForm.reset(); // フォームをリセット
+                    loadPopularImages(); // 人気画像を再読み込みして最新情報を反映
+                } else {
+                    const errorData = await response.json();
+                    uploadProgress.textContent = `アップロード失敗: ${errorData.message || response.statusText}`;
+                    uploadProgress.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('アップロード中にエラーが発生しました:', error);
+                uploadProgress.textContent = 'ネットワークエラー、またはサーバーに接続できません。';
                 uploadProgress.style.color = 'red';
             }
-        } catch (error) {
-            console.error('アップロード中にエラーが発生しました:', error);
-            uploadProgress.textContent = 'ネットワークエラー、またはサーバーに接続できません。';
+        };
+        reader.onerror = (error) => {
+            console.error('ファイルの読み込み中にエラーが発生しました:', error);
+            uploadProgress.textContent = 'ファイルの読み込みに失敗しました。';
             uploadProgress.style.color = 'red';
-        }
+        };
     });
 
     // --- 2. 人気画像の管理（表示）機能 ---
@@ -66,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadPopularImages() {
         popularImagesGrid.innerHTML = '<p>人気画像を読み込み中...</p>'; // ロード中表示
         try {
-            const response = await fetch(`${API_BASE_URL}/popular-images`, {
+            const response = await fetch(`${API_BASE_URL}/getPopularImages`, { // getPopularImages 関数を呼び出す
                 // 管理者認証トークンなどをヘッダーに追加する
                 // headers: {
                 //     'Authorization': 'Bearer YOUR_ADMIN_AUTH_TOKEN'
