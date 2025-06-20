@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者ページ | AI画像素材屋</title>
+    <link rel="stylesheet" href="style.css"> <style>
+        /* 管理者ページ固有のCSS */
+        .admin-container {
+            max-width: 960px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .admin-section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .admin-section:last-child {
+            border-bottom: none;
+        }
+        .admin-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        .upload-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .upload-form input[type="text"],
+        .upload-form input[type="number"],
+        .upload-form textarea,
+        .upload-form input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .upload-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .upload-progress {
+            margin-top: 15px;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+        .popular-images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .popular-image-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .popular-image-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        .popular-image-item-info {
+            padding: 15px;
+        }
+        .popular-image-item-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        .popular-image-item-info p {
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+        .popular-image-item-info .stats {
+            margin-top: 10px;
+            font-weight: 700;
+        }
+        .popular-image-item-info .stats span {
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1 class="site-logo"><a href="index.html">管理者ダッシュボード</a></h1>
+            <nav class="site-nav">
+                <ul>
+                    <li><a href="index.html">サイトへ戻る</a></li>
+                    <li><a href="#">ログアウト</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="admin-container">
+            <section class="admin-section upload-section">
+                <h2>新しい画像のアップロード</h2>
+                <form id="uploadForm" class="upload-form">
+                    <label for="imageFile">画像ファイル:</label>
+                    <input type="file" id="imageFile" accept="image/*" required>
+
+                    <label for="title">タイトル:</label>
+                    <input type="text" id="title" required>
+
+                    <label for="description">説明:</label>
+                    <textarea id="description"></textarea>
+
+                    <label for="price">価格:</label>
+                    <input type="number" id="price" min="0" value="500" required>
+
+                    <label for="tags">タグ (カンマ区切り):</label>
+                    <input type="text" id="tags">
+
+                    <button type="submit" class="button">アップロード</button>
+                    <p id="uploadProgress" class="upload-progress"></p>
+                </form>
+            </section>
+
+            <section class="admin-section popular-images-section">
+                <h2>人気画像</h2>
+                <div id="popularImagesGrid" class="popular-images-grid">
+                    <p>人気画像を読み込み中...</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 AI画像素材屋 管理者ページ</p>
+        </div>
+    </footer>
+
+    <script src="admin.js"></script> </body>
+</html>
